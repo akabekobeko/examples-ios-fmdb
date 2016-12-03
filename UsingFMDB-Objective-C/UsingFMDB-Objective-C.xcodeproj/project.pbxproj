@@ -15,6 +15,8 @@
 		168F30EB1DE32A4100F03E2F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 168F30E91DE32A4100F03E2F /* LaunchScreen.storyboard */; };
 		168F30F61DE32A4100F03E2F /* UsingFMDB_Objective_CTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 168F30F51DE32A4100F03E2F /* UsingFMDB_Objective_CTests.m */; };
 		168F31011DE32A4100F03E2F /* UsingFMDB_Objective_CUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 168F31001DE32A4100F03E2F /* UsingFMDB_Objective_CUITests.m */; };
+		16D30CF81DF2DEBD0086C0E7 /* Book.m in Sources */ = {isa = PBXBuildFile; fileRef = 16D30CF71DF2DEBD0086C0E7 /* Book.m */; };
+		16D30CFB1DF2DF3A0086C0E7 /* BookDAO.m in Sources */ = {isa = PBXBuildFile; fileRef = 16D30CFA1DF2DF3A0086C0E7 /* BookDAO.m */; };
 		9D529C28168CD7D42A133D3C /* libPods-UsingFMDB-Objective-CTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 106EA4E9982E1AC53B013408 /* libPods-UsingFMDB-Objective-CTests.a */; };
 		E955E9DB9804F3A359A86204 /* libPods-UsingFMDB-Objective-CUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 14C597E4E8AF49E5CF5BF927 /* libPods-UsingFMDB-Objective-CUITests.a */; };
 		F1CA9591F14051CFFE26FFF6 /* libPods-UsingFMDB-Objective-C.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 809526780AC94A0DF1CB2FA8 /* libPods-UsingFMDB-Objective-C.a */; };
@@ -56,6 +58,10 @@
 		168F30FC1DE32A4100F03E2F /* UsingFMDB-Objective-CUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "UsingFMDB-Objective-CUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		168F31001DE32A4100F03E2F /* UsingFMDB_Objective_CUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UsingFMDB_Objective_CUITests.m; sourceTree = "<group>"; };
 		168F31021DE32A4100F03E2F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		16D30CF61DF2DEBD0086C0E7 /* Book.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Book.h; sourceTree = "<group>"; };
+		16D30CF71DF2DEBD0086C0E7 /* Book.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Book.m; sourceTree = "<group>"; };
+		16D30CF91DF2DF3A0086C0E7 /* BookDAO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookDAO.h; sourceTree = "<group>"; };
+		16D30CFA1DF2DF3A0086C0E7 /* BookDAO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookDAO.m; sourceTree = "<group>"; };
 		588BB40E13668A9E26253785 /* Pods-UsingFMDB-Objective-CTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UsingFMDB-Objective-CTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-UsingFMDB-Objective-CTests/Pods-UsingFMDB-Objective-CTests.release.xcconfig"; sourceTree = "<group>"; };
 		5D970A04E7654385E03C2725 /* Pods-UsingFMDB-Objective-C.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UsingFMDB-Objective-C.debug.xcconfig"; path = "Pods/Target Support Files/Pods-UsingFMDB-Objective-C/Pods-UsingFMDB-Objective-C.debug.xcconfig"; sourceTree = "<group>"; };
 		6C09405D047A68FD0E6F7347 /* Pods-UsingFMDB-Objective-CUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UsingFMDB-Objective-CUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-UsingFMDB-Objective-CUITests/Pods-UsingFMDB-Objective-CUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -120,11 +126,9 @@
 			children = (
 				168F30DE1DE32A4100F03E2F /* AppDelegate.h */,
 				168F30DF1DE32A4100F03E2F /* AppDelegate.m */,
-				168F30E11DE32A4100F03E2F /* BooksViewController.h */,
-				168F30E21DE32A4100F03E2F /* BooksViewController.m */,
-				168F30E41DE32A4100F03E2F /* Main.storyboard */,
+				16D30CF41DF2DE7F0086C0E7 /* Models */,
+				16D30CF51DF2DE880086C0E7 /* Views & Controllers */,
 				168F30E71DE32A4100F03E2F /* Assets.xcassets */,
-				168F30E91DE32A4100F03E2F /* LaunchScreen.storyboard */,
 				168F30EC1DE32A4100F03E2F /* Info.plist */,
 				168F30DB1DE32A4100F03E2F /* Supporting Files */,
 			);
@@ -155,6 +159,28 @@
 				168F31021DE32A4100F03E2F /* Info.plist */,
 			);
 			path = "UsingFMDB-Objective-CUITests";
+			sourceTree = "<group>";
+		};
+		16D30CF41DF2DE7F0086C0E7 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				16D30CF61DF2DEBD0086C0E7 /* Book.h */,
+				16D30CF71DF2DEBD0086C0E7 /* Book.m */,
+				16D30CF91DF2DF3A0086C0E7 /* BookDAO.h */,
+				16D30CFA1DF2DF3A0086C0E7 /* BookDAO.m */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		16D30CF51DF2DE880086C0E7 /* Views & Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				168F30E11DE32A4100F03E2F /* BooksViewController.h */,
+				168F30E21DE32A4100F03E2F /* BooksViewController.m */,
+				168F30E41DE32A4100F03E2F /* Main.storyboard */,
+				168F30E91DE32A4100F03E2F /* LaunchScreen.storyboard */,
+			);
+			name = "Views & Controllers";
 			sourceTree = "<group>";
 		};
 		7C062220907C4639D4EE2584 /* Frameworks */ = {
@@ -460,8 +486,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				16D30CF81DF2DEBD0086C0E7 /* Book.m in Sources */,
 				168F30E31DE32A4100F03E2F /* BooksViewController.m in Sources */,
 				168F30E01DE32A4100F03E2F /* AppDelegate.m in Sources */,
+				16D30CFB1DF2DF3A0086C0E7 /* BookDAO.m in Sources */,
 				168F30DD1DE32A4100F03E2F /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
