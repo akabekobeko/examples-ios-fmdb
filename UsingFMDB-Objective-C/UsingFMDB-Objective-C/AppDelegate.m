@@ -7,8 +7,11 @@
 //
 
 #import "AppDelegate.h"
+#import "AppDAO.h"
 
 @interface AppDelegate ()
+
+@property (nonatomic, readwrite) AppDAO *appDAO;
 
 @end
 
@@ -23,7 +26,8 @@
  * @return NO if the app cannot handle the URL resource or continue a user activity, otherwise return YES. The return value is ignored if the app is launched as a result of a remote notification.
  */
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    self.appDAO = [[AppDAO alloc] init];
+
     return YES;
 }
 

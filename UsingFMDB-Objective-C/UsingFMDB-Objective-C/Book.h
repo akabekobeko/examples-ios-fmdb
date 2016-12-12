@@ -16,15 +16,17 @@
 /** Identifier. */
 @property (nonatomic, readonly) NSInteger bookId;
 
+/** Author. */
+@property (nonatomic, readonly) NSString *author;
+
 /** Title. */
 @property (nonatomic, readonly) NSString *title;
 
-/** Author. */
-@property (nonatomic, readonly) NSString *author;
 
 /** Release date. */
 @property (nonatomic, readonly) NSDate *releaseDate;
 
-- (instancetype)init:(NSInteger)bookId title:(NSString *)title author:(NSString *)author releaseDate:(NSDate *)releaseDate;
+
++ (instancetype)bookWithId:(NSInteger)bookId author:(NSString *)author title:(NSString *)title releaseDate:(NSDate *)releaseDate;
 
 @end

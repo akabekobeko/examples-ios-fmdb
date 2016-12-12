@@ -8,14 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
+@class AppDAO;
+
 /**
- * Manage for an application data.
+ * Manager for the application.
  */
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 /** Main window. */
 @property (strong, nonatomic) UIWindow *window;
 
+/** Manager for the application database. */
+@property (nonatomic, readonly) AppDAO *appDAO;
 
 @end
 

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		165E69C21DFEC800007668E1 /* AppDAO.m in Sources */ = {isa = PBXBuildFile; fileRef = 165E69C11DFEC800007668E1 /* AppDAO.m */; };
 		168F30DD1DE32A4100F03E2F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 168F30DC1DE32A4100F03E2F /* main.m */; };
 		168F30E01DE32A4100F03E2F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 168F30DF1DE32A4100F03E2F /* AppDelegate.m */; };
 		168F30E31DE32A4100F03E2F /* BooksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 168F30E21DE32A4100F03E2F /* BooksViewController.m */; };
@@ -42,6 +43,8 @@
 /* Begin PBXFileReference section */
 		106EA4E9982E1AC53B013408 /* libPods-UsingFMDB-Objective-CTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-UsingFMDB-Objective-CTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		14C597E4E8AF49E5CF5BF927 /* libPods-UsingFMDB-Objective-CUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-UsingFMDB-Objective-CUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		165E69C01DFEC800007668E1 /* AppDAO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDAO.h; sourceTree = "<group>"; };
+		165E69C11DFEC800007668E1 /* AppDAO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDAO.m; sourceTree = "<group>"; };
 		168F30D81DE32A4100F03E2F /* UsingFMDB-Objective-C.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "UsingFMDB-Objective-C.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		168F30DC1DE32A4100F03E2F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		168F30DE1DE32A4100F03E2F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -164,6 +167,8 @@
 		16D30CF41DF2DE7F0086C0E7 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				165E69C01DFEC800007668E1 /* AppDAO.h */,
+				165E69C11DFEC800007668E1 /* AppDAO.m */,
 				16D30CF61DF2DEBD0086C0E7 /* Book.h */,
 				16D30CF71DF2DEBD0086C0E7 /* Book.m */,
 				16D30CF91DF2DF3A0086C0E7 /* BookDAO.h */,
@@ -486,6 +491,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				165E69C21DFEC800007668E1 /* AppDAO.m in Sources */,
 				16D30CF81DF2DEBD0086C0E7 /* Book.m in Sources */,
 				168F30E31DE32A4100F03E2F /* BooksViewController.m in Sources */,
 				168F30E01DE32A4100F03E2F /* AppDelegate.m in Sources */,
