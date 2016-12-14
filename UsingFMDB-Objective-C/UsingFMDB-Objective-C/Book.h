@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+/** Invalid book identifier. */
+extern NSInteger const kBookIdNone;
+
 /**
  * Represents a book.
  */

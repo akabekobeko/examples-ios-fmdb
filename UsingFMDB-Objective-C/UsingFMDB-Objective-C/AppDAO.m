@@ -7,12 +7,16 @@
 //
 
 #import "AppDAO.h"
+#import "BookDAO.h"
 #import <FMDatabase.h>
 
 /** File name of the SQLite database. */
 static NSString * const kDBFileName = @"app.db";
 
 @interface AppDAO ()
+
+// Override for the public properties
+@property (nonatomic, readwrite) BookDAO *bookDAO;
 
 /** Path of the SQLite database file. */
 @property (nonatomic) NSString *dbFilePath;
@@ -31,6 +35,8 @@ static NSString * const kDBFileName = @"app.db";
     if (self) {
         self.dbFilePath = [self databaseFilePath];
         NSLog(@"DB = %@", self.dbFilePath);
+
+        self.bookDAO = [[BookDAO alloc] init:self];
     }
 
     return self;
