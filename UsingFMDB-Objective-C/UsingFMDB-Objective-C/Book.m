@@ -8,6 +8,8 @@
 
 #import "Book.h"
 
+NSInteger const kBookIdNone = 0;
+
 @interface Book ()
 
 @property (nonatomic, readwrite) NSInteger bookId;

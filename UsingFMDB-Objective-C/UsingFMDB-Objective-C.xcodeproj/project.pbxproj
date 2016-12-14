@@ -16,6 +16,7 @@
 		168F30EB1DE32A4100F03E2F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 168F30E91DE32A4100F03E2F /* LaunchScreen.storyboard */; };
 		168F30F61DE32A4100F03E2F /* UsingFMDB_Objective_CTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 168F30F51DE32A4100F03E2F /* UsingFMDB_Objective_CTests.m */; };
 		168F31011DE32A4100F03E2F /* UsingFMDB_Objective_CUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 168F31001DE32A4100F03E2F /* UsingFMDB_Objective_CUITests.m */; };
+		16AF80B91E01870D00EC0306 /* EditBookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 16AF80B81E01870D00EC0306 /* EditBookViewController.m */; };
 		16D30CF81DF2DEBD0086C0E7 /* Book.m in Sources */ = {isa = PBXBuildFile; fileRef = 16D30CF71DF2DEBD0086C0E7 /* Book.m */; };
 		16D30CFB1DF2DF3A0086C0E7 /* BookDAO.m in Sources */ = {isa = PBXBuildFile; fileRef = 16D30CFA1DF2DF3A0086C0E7 /* BookDAO.m */; };
 		9D529C28168CD7D42A133D3C /* libPods-UsingFMDB-Objective-CTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 106EA4E9982E1AC53B013408 /* libPods-UsingFMDB-Objective-CTests.a */; };
@@ -61,6 +62,8 @@
 		168F30FC1DE32A4100F03E2F /* UsingFMDB-Objective-CUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "UsingFMDB-Objective-CUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		168F31001DE32A4100F03E2F /* UsingFMDB_Objective_CUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UsingFMDB_Objective_CUITests.m; sourceTree = "<group>"; };
 		168F31021DE32A4100F03E2F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		16AF80B71E01870D00EC0306 /* EditBookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditBookViewController.h; sourceTree = "<group>"; };
+		16AF80B81E01870D00EC0306 /* EditBookViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditBookViewController.m; sourceTree = "<group>"; };
 		16D30CF61DF2DEBD0086C0E7 /* Book.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Book.h; sourceTree = "<group>"; };
 		16D30CF71DF2DEBD0086C0E7 /* Book.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Book.m; sourceTree = "<group>"; };
 		16D30CF91DF2DF3A0086C0E7 /* BookDAO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookDAO.h; sourceTree = "<group>"; };
@@ -182,6 +185,8 @@
 			children = (
 				168F30E11DE32A4100F03E2F /* BooksViewController.h */,
 				168F30E21DE32A4100F03E2F /* BooksViewController.m */,
+				16AF80B71E01870D00EC0306 /* EditBookViewController.h */,
+				16AF80B81E01870D00EC0306 /* EditBookViewController.m */,
 				168F30E41DE32A4100F03E2F /* Main.storyboard */,
 				168F30E91DE32A4100F03E2F /* LaunchScreen.storyboard */,
 			);
@@ -497,6 +502,7 @@
 				168F30E01DE32A4100F03E2F /* AppDelegate.m in Sources */,
 				16D30CFB1DF2DF3A0086C0E7 /* BookDAO.m in Sources */,
 				168F30DD1DE32A4100F03E2F /* main.m in Sources */,
+				16AF80B91E01870D00EC0306 /* EditBookViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
