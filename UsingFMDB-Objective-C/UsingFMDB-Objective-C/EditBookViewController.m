@@ -23,6 +23,8 @@
 
 /**
  * Called after the controller's view is loaded into memory.
+ *
+ * @see https://developer.apple.com/reference/uikit/uiviewcontroller/1621495-viewdidload?language=objc
  */
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -37,6 +39,9 @@
         self.authorTextField.text   = self.originalBook.author;
         self.titleTextField.text    = self.originalBook.title;
         self.releaseDatePicker.date = self.originalBook.releaseDate;
+    } else {
+        self.authorTextField.text = @"Sample Author";
+        self.titleTextField.text  = @"Sample Title";
     }
 
     [self updateDoneButton];
@@ -44,6 +49,8 @@
 
 /**
  * Sent to the view controller when the app receives a memory warning.
+ *
+ * @see https://developer.apple.com/reference/uikit/uiviewcontroller/1621409-didreceivememorywarning?language=objc
  */
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -66,12 +73,12 @@
  * @param sender Event target.
  */
 - (IBAction)done:(id)sender {
-    if ([self.delegate respondsToSelector:@selector(didFinishEditBook:author:title:releaseDate:)]) {
-        NSInteger bookId = self.originalBook ? self.originalBook.bookId : kBookIdNone;
-        [self.delegate didFinishEditBook:bookId
-                                  author:self.authorTextField.text
-                                   title:self.titleTextField.text
-                             releaseDate:self.releaseDatePicker.date];
+    if ([self.delegate respondsToSelector:@selector(didFinishEditBook:oldBook:)]) {
+        [self.delegate didFinishEditBook:[Book bookWithId:self.originalBook ? self.originalBook.bookId : kBookIdNone
+                                                   author:self.authorTextField.text
+                                                    title:self.titleTextField.text
+                                              releaseDate:self.releaseDatePicker.date]
+                                 oldBook:self.originalBook];
     }
 
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -98,11 +105,13 @@
 #pragma mark - UINavigationBarDelegate
 
 /**
- * UINavigatonBar の位置を取得します。
+ * Asks the delegate for the position of the specified bar in its new window.
  *
- * @param bar UINavigatonBar の参照。
+ * @param bar The bar that was added to the window.
  *
- * @return UINavigatonBar の位置情報。
+ * @return The position of the bar.
+ *
+ * @see https://developer.apple.com/reference/uikit/uibarpositioningdelegate/1624872-positionforbar
  */
 - (UIBarPosition)positionForBar:(id<UIBarPositioning>)bar {
     return UIBarPositionTopAttached;
@@ -116,6 +125,8 @@
  * @param textField The text field whose return button was pressed.
  *
  * @return YES if the text field should implement its default behavior for the return button; otherwise, NO.
+ *
+ * @see https://developer.apple.com/reference/uikit/uitextfielddelegate/1619603-textfieldshouldreturn
  */
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
