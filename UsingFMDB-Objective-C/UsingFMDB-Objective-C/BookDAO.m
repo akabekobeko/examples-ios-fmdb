@@ -26,8 +26,8 @@ static NSString * const kSQLSelect = @""
 "SELECT "
   "id, author, title, release_date "
 "FROM "
-  "books "
-"GROUP BY "
+  "books;"
+"ORDER BY "
   "author, title;";
 
 /** Query for the inssert row. */
@@ -79,13 +79,13 @@ static NSString * const kSQLDelete = @""
 /**
  * Add a book.
  *
- * @param title       Title.
  * @param author      Author.
+ * @param title       Title.
  * @param releaseDate Release date.
  *
  * @return Added book.
  */
-- (Book *)add:(NSString *)title author:(NSString *)author releaseDate:(NSDate *)releaseDate {
+- (Book *)add:(NSString *)author title:(NSString *)title releaseDate:(NSDate *)releaseDate {
     FMDatabase *db = [self.appDAO connection];
     if (!(db)) { return nil; }
 

@@ -16,7 +16,7 @@
 @interface BookDAO : NSObject
 
 - (instancetype)init:(AppDAO *)appDAO;
-- (Book *)add:(NSString *)title author:(NSString *)author releaseDate:(NSDate *)releaseDate;
+- (Book *)add:(NSString *)author title:(NSString *)title releaseDate:(NSDate *)releaseDate;
 - (NSArray *)read;
 - (BOOL)remove:(NSInteger)bookId;
 - (BOOL)update:(Book *)book;

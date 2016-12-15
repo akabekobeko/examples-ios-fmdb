@@ -19,12 +19,10 @@
 /**
  * Occurs when editing or creation of a book is completed.
  *
- * @param bookId      Identifier, If it  kBookIdNone is specified for new creation.
- * @param author      Author.
- * @param title       Title.
- * @param releaseDate Release date.
+ * @param newBook New book data.
+ * @param oldBook Old book data.
  */
-- (void)didFinishEditBook:(NSInteger)bookId author:(NSString *)author title:(NSString *)title releaseDate:(NSDate *)releaseDate;
+- (void)didFinishEditBook:(Book *)newBook oldBook:(Book *)oldBook;
 
 @end
 
