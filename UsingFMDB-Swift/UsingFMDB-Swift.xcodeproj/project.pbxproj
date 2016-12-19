@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		10384EB71E0796B200D87032 /* EditBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10384EB61E0796B200D87032 /* EditBookViewController.swift */; };
 		160E62E91E054B60001AFB1B /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160E62E81E054B60001AFB1B /* Book.swift */; };
 		160E62EB1E054FE0001AFB1B /* AppDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160E62EA1E054FE0001AFB1B /* AppDAO.swift */; };
 		164970861E05336100B3A96B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164970851E05336100B3A96B /* AppDelegate.swift */; };
@@ -40,6 +41,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		10384EB61E0796B200D87032 /* EditBookViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditBookViewController.swift; sourceTree = "<group>"; };
 		160E62E81E054B60001AFB1B /* Book.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
 		160E62EA1E054FE0001AFB1B /* AppDAO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDAO.swift; sourceTree = "<group>"; };
 		164970821E05336100B3A96B /* UsingFMDB-Swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "UsingFMDB-Swift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -161,6 +163,7 @@
 			isa = PBXGroup;
 			children = (
 				164970871E05336100B3A96B /* BooksViewController.swift */,
+				10384EB61E0796B200D87032 /* EditBookViewController.swift */,
 				164970891E05336100B3A96B /* Main.storyboard */,
 				1649708E1E05336100B3A96B /* LaunchScreen.storyboard */,
 			);
@@ -267,6 +270,7 @@
 				TargetAttributes = {
 					164970811E05336000B3A96B = {
 						CreatedOnToolsVersion = 8.2;
+						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 					};
 					164970951E05336100B3A96B = {
@@ -472,6 +476,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				160E62EB1E054FE0001AFB1B /* AppDAO.swift in Sources */,
+				10384EB71E0796B200D87032 /* EditBookViewController.swift in Sources */,
 				160E62E91E054B60001AFB1B /* Book.swift in Sources */,
 				166D79B91E05466700BE23DD /* BookDAO.swift in Sources */,
 				164970881E05336100B3A96B /* BooksViewController.swift in Sources */,
@@ -628,10 +633,12 @@
 			baseConfigurationReference = 2ADD06F423DC9A3338580702 /* Pods-UsingFMDB-Swift.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = "UsingFMDB-Swift/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "me.akabeko.UsingFMDB-Swift";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -641,6 +648,7 @@
 			baseConfigurationReference = 3CF1DF8DB31AB7E3CE3B9DC3 /* Pods-UsingFMDB-Swift.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = "UsingFMDB-Swift/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "me.akabeko.UsingFMDB-Swift";

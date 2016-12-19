@@ -15,13 +15,13 @@ class AppDAO: NSObject {
     private(set) var bookDAO: BookDAO?
 
     /// Path of the database file.
-    private var filePath: String?
+    private var filePath = AppDAO.databaseFilePath()
 
     /// Initialize the instance.
     override init() {
         super.init()
-        self.filePath = self.databaseFilePath()
-        self.bookDAO  = BookDAO(appDAO: self)
+        self.bookDAO = BookDAO(appDAO: self)
+        print(self.filePath)
     }
 
     /// Get the database connection.
@@ -35,7 +35,7 @@ class AppDAO: NSObject {
     /// Get the path of database file.
     ///
     /// - Returns: Path of the database file.
-    private func databaseFilePath() -> String {
+    private static func databaseFilePath() -> String {
         let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)
         let dir   = paths[0] as NSString
         return dir.appendingPathComponent("app.db")
