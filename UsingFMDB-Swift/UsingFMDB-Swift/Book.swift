@@ -10,8 +10,11 @@ import UIKit
 
 /// Represents a book.
 class Book: NSObject {
+    /// Invalid book identifier.
+    static let BookIdNone = 0
+
     /// Identifier.
-    private(set) var bookId: Int32;
+    private(set) var bookId: Int;
 
     /// Title.
     private(set) var title: String;
@@ -29,7 +32,7 @@ class Book: NSObject {
     ///   - title:       Title.
     ///   - author:      Author.
     ///   - releaseDate: Release Date
-    init(bookId: Int32, title: String, author: String, releaseDate: Date) {
+    init(bookId: Int, author: String, title: String, releaseDate: Date) {
         self.bookId      = bookId
         self.title       = title
         self.author      = author

@@ -56,6 +56,8 @@ class BookDAO: NSObject {
     /// - Parameter appDAO: Manager fot the application data.
     init(appDAO: AppDAO) {
         self.appDAO = appDAO
+        super.init()
+        self.create()
     }
 
     /// Add the book.
@@ -70,7 +72,7 @@ class BookDAO: NSObject {
         if let db = self.appDAO.connection() {
             if db.executeUpdate(BookDAO.SQLInsert, withArgumentsIn: [author, title, releaseDate]) {
                 let bookId = db.lastInsertRowId()
-                book = Book(bookId: Int32(bookId), title: title, author: author, releaseDate: releaseDate)
+                book = Book(bookId: Int(bookId), author: author, title: title, releaseDate: releaseDate)
             }
 
             db.close()
@@ -87,9 +89,9 @@ class BookDAO: NSObject {
         if let db = self.appDAO.connection() {
             let results = db.executeQuery(BookDAO.SQLSelect, withArgumentsIn: nil)
             while (results?.next())! {
-                let book = Book(bookId: (results?.int(forColumnIndex: 0))!,
-                                title: (results?.string(forColumnIndex: 1))!,
-                                author: (results?.string(forColumnIndex: 2))!,
+                let book = Book(bookId: Int((results?.int(forColumnIndex: 0))!),
+                                author: (results?.string(forColumnIndex: 1))!,
+                                title: (results?.string(forColumnIndex: 2))!,
                                 releaseDate: (results?.date(forColumnIndex: 3))!)
                 books.append(book)
             }
@@ -104,7 +106,7 @@ class BookDAO: NSObject {
     ///
     /// - Parameter bookId: The identifier of the book to remove.
     /// - Returns: "true" if successful.
-    func remove(bookId: Int32) -> Bool {
+    func remove(bookId: Int) -> Bool {
         if let db = self.appDAO.connection() {
             let succeeded = db.executeUpdate(BookDAO.SQLDelete,
                                              withArgumentsIn: [bookId])
