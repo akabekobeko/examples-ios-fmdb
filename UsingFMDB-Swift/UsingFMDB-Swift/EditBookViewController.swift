@@ -13,9 +13,10 @@ protocol EditBookViewControllerDelegate : class {
     /// Occurs when editing or creation of a book is completed.
     ///
     /// - Parameters:
-    ///   - oldBook: Old book data.
-    ///   - newBook: New book data.
-    func didFinishEditBook(oldBook: Book?, newBook: Book) -> Void
+    ///   - viewController: Sender.
+    ///   - oldBook:        Old book data.
+    ///   - newBook:        New book data.
+    func didFinishEditBook(viewController: EditBookViewController, oldBook: Book?, newBook: Book) -> Void
 }
 
 /// Edit or create a book.
@@ -88,11 +89,11 @@ class EditBookViewController: UIViewController, UINavigationBarDelegate, UITextF
     ///
     /// - Parameter sender: Event target.
     @IBAction func done(_ sender: Any) {
-        let newBook = Book(bookId: Book.BookIdNone,
+        let newBook = Book(bookId: (self.originalBook != nil) ? self.originalBook!.bookId : Book.BookIdNone,
                            author: self.authorTextField.text!,
                            title: self.titleTextField.text!,
                            releaseDate: self.releaseDatePicker.date)
-        self.deletate?.didFinishEditBook(oldBook: self.originalBook, newBook: newBook)
+        self.deletate?.didFinishEditBook(viewController: self, oldBook: self.originalBook, newBook: newBook)
         self.dismiss(animated: true, completion: nil)
     }
 
@@ -112,6 +113,6 @@ class EditBookViewController: UIViewController, UINavigationBarDelegate, UITextF
 
     /// Update the done button.
     func updateDoneButton() -> Void {
-        self.doneButton.isEnabled = ( self.authorTextField.text != "" && self.titleTextField.text != "" );
+        self.doneButton.isEnabled = ( self.authorTextField.text != "" && self.titleTextField.text != "" )
     }
 }

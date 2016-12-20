@@ -12,7 +12,7 @@ import FMDB
 /// Manager fot the application data.
 class AppDAO: NSObject {
     /// Manage for the books data.
-    private(set) var bookDAO: BookDAO?
+    private(set) var bookDAO: BookDAO!
 
     /// Path of the database file.
     private var filePath = AppDAO.databaseFilePath()

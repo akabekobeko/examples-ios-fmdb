@@ -68,7 +68,7 @@ class BookDAO: NSObject {
     ///   - releaseDate: Release date.
     /// - Returns: Added the book.
     func add(author: String, title: String, releaseDate: Date) -> Book? {
-        var book: Book? = nil;
+        var book: Book? = nil
         if let db = self.appDAO.connection() {
             if db.executeUpdate(BookDAO.SQLInsert, withArgumentsIn: [author, title, releaseDate]) {
                 let bookId = db.lastInsertRowId()
@@ -85,15 +85,16 @@ class BookDAO: NSObject {
     ///
     /// - Returns: Readed books.
     func read() -> Array<Book> {
-        var books = Array<Book>();
+        var books = Array<Book>()
         if let db = self.appDAO.connection() {
-            let results = db.executeQuery(BookDAO.SQLSelect, withArgumentsIn: nil)
-            while (results?.next())! {
-                let book = Book(bookId: Int((results?.int(forColumnIndex: 0))!),
-                                author: (results?.string(forColumnIndex: 1))!,
-                                title: (results?.string(forColumnIndex: 2))!,
-                                releaseDate: (results?.date(forColumnIndex: 3))!)
-                books.append(book)
+            if let results = db.executeQuery(BookDAO.SQLSelect, withArgumentsIn: nil) {
+                while results.next() {
+                    let book = Book(bookId: results.long(forColumnIndex: 0),
+                                    author: results.string(forColumnIndex: 1),
+                                    title: results.string(forColumnIndex: 2),
+                                    releaseDate: results.date(forColumnIndex: 3))
+                    books.append(book)
+                }
             }
 
             db.close()
@@ -108,13 +109,12 @@ class BookDAO: NSObject {
     /// - Returns: "true" if successful.
     func remove(bookId: Int) -> Bool {
         if let db = self.appDAO.connection() {
-            let succeeded = db.executeUpdate(BookDAO.SQLDelete,
-                                             withArgumentsIn: [bookId])
+            let success = db.executeUpdate(BookDAO.SQLDelete, withArgumentsIn: [bookId])
             db.close()
-            return succeeded
+            return success
         }
 
-        return false;
+        return false
     }
 
     /// Update a book.
@@ -123,14 +123,14 @@ class BookDAO: NSObject {
     /// - Returns: "true" if successful.
     func update(book: Book) -> Bool {
         if let db = self.appDAO.connection() {
-            let succeeded = db.executeUpdate(BookDAO.SQLUpdate,
-                                             withArgumentsIn: [
-                                                book.author,
-                                                book.title,
-                                                book.releaseDate,
-                                                book.bookId])
+            let success = db.executeUpdate(BookDAO.SQLUpdate,
+                                           withArgumentsIn: [
+                                            book.author,
+                                            book.title,
+                                            book.releaseDate,
+                                            book.bookId])
             db.close()
-            return succeeded
+            return success
         }
 
         return false
