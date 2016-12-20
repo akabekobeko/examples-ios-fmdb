@@ -14,16 +14,16 @@ class Book: NSObject {
     static let BookIdNone = 0
 
     /// Identifier.
-    private(set) var bookId: Int;
+    private(set) var bookId: Int
 
     /// Title.
-    private(set) var title: String;
+    private(set) var title: String
 
     /// Author.
-    private(set) var author: String;
+    private(set) var author: String
 
     /// Release date.
-    private(set) var releaseDate: Date;
+    private(set) var releaseDate: Date
 
     /// Create a book instance.
     ///

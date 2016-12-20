@@ -20,11 +20,11 @@ class BooksViewController: UITableViewController, EditBookViewControllerDelegate
     private var authors = Array<String>()
 
     /// Dictionary of book collection classified by author name.
-    private var booksByAuthorName = Dictionary<String, Array<Book>>()
+    private var booksByAuthor = Dictionary<String, Array<Book>>()
 
     /// A value indicating that a new book should be created.
     private var creatingBook = false
-    
+
     /// Called after the controller's view is loaded into memory.
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,12 +32,12 @@ class BooksViewController: UITableViewController, EditBookViewControllerDelegate
         self.title = "Books"
 
         let button = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add, target: self, action: #selector(didTouchCreateBookButton(sender:)))
-        self.navigationItem.leftBarButtonItem  = button;
+        self.navigationItem.leftBarButtonItem  = button
         self.navigationItem.rightBarButtonItem = self.editButtonItem
 
-        let app  = UIApplication.shared.delegate as! AppDelegate
-        let books = app.appDAO.bookDAO?.read()
-        books?.forEach({ book in
+        let app   = UIApplication.shared.delegate as! AppDelegate
+        let books = app.appDAO.bookDAO.read()
+        books.forEach({ book in
           self.addBook(book: book)
         })
     }
@@ -63,7 +63,7 @@ class BooksViewController: UITableViewController, EditBookViewControllerDelegate
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == BooksViewController.SegueEditBook {
             let vc = segue.destination as! EditBookViewController
-            vc.originalBook = self.creatingBook ? nil : self.bookAtIndexPAth(indexPath: self.tableView.indexPathForSelectedRow!);
+            vc.originalBook = self.creatingBook ? nil : self.bookAtIndexPAth(indexPath: self.tableView.indexPathForSelectedRow!)
             vc.deletate     = self
         }
     }
@@ -71,9 +71,10 @@ class BooksViewController: UITableViewController, EditBookViewControllerDelegate
     /// Occurs when editing or creation of a book is completed.
     ///
     /// - Parameters:
-    ///   - oldBook: Old book data.
-    ///   - newBook: New book data.
-    func didFinishEditBook(oldBook: Book?, newBook: Book) {
+    ///   - viewController: Sender.
+    ///   - oldBook:        Old book data.
+    ///   - newBook:        New book data.
+    func didFinishEditBook(viewController: EditBookViewController, oldBook: Book?, newBook: Book) {
         if (newBook.bookId == Book.BookIdNone) {
             self.createBook(book: newBook)
         } else {
@@ -105,7 +106,7 @@ class BooksViewController: UITableViewController, EditBookViewControllerDelegate
     /// - Returns: The number of rows in section.
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let author = self.authors[section]
-        let books  = self.booksByAuthorName[author]
+        let books  = self.booksByAuthor[author]
 
         return (books?.count)!
     }
@@ -147,7 +148,7 @@ class BooksViewController: UITableViewController, EditBookViewControllerDelegate
         if editingStyle == UITableViewCellEditingStyle.delete {
             let app  = UIApplication.shared.delegate as! AppDelegate
             let book = self.bookAtIndexPAth(indexPath: indexPath)
-            if (app.appDAO.bookDAO?.remove(bookId: book.bookId))! {
+            if app.appDAO.bookDAO.remove(bookId: book.bookId) {
                 self.removeBook(book: book)
                 self.tableView.reloadData()
             }
@@ -170,7 +171,7 @@ class BooksViewController: UITableViewController, EditBookViewControllerDelegate
     /// - Returns: Book data.
     private func bookAtIndexPAth(indexPath: IndexPath) -> Book {
         let author = self.authors[indexPath.section]
-        let books  = self.booksByAuthorName[author]
+        let books  = self.booksByAuthor[author]
 
         return books![indexPath.row]
     }
@@ -179,13 +180,13 @@ class BooksViewController: UITableViewController, EditBookViewControllerDelegate
     ///
     /// - Parameter book: Book data.
     private func addBook(book: Book) -> Void {
-        if var books = self.booksByAuthorName[book.author] {
+        if var books = self.booksByAuthor[book.author] {
             books.append(book)
-            self.booksByAuthorName.updateValue(books, forKey: book.author)
+            self.booksByAuthor.updateValue(books, forKey: book.author)
         } else {
             var newBooks = Array<Book>()
             newBooks.append(book)
-            self.booksByAuthorName[book.author] = newBooks
+            self.booksByAuthor[book.author] = newBooks
             self.authors.append(book.author)
         }
     }
@@ -195,7 +196,7 @@ class BooksViewController: UITableViewController, EditBookViewControllerDelegate
     /// - Parameter book: Book data.
     private func createBook(book: Book) -> Void {
         let app = UIApplication.shared.delegate as! AppDelegate
-        if let newBook = app.appDAO.bookDAO?.add(author: book.author, title: book.title, releaseDate: book.releaseDate) {
+        if let newBook = app.appDAO.bookDAO.add(author: book.author, title: book.title, releaseDate: book.releaseDate) {
             self.addBook(book: newBook)
             self.tableView.reloadData()
         }
@@ -205,12 +206,12 @@ class BooksViewController: UITableViewController, EditBookViewControllerDelegate
     ///
     /// - Parameter author: Name of the author.
     private func removeAuthor(author: String) -> Void {
-        self.booksByAuthorName.removeValue(forKey: author)
+        self.booksByAuthor.removeValue(forKey: author)
         for i in 0..<self.authors.count {
             let existAuthor = self.authors[i]
             if existAuthor == author {
                 self.authors.remove(at: i)
-                break;
+                break
             }
         }
     }
@@ -219,12 +220,12 @@ class BooksViewController: UITableViewController, EditBookViewControllerDelegate
     ///
     /// - Parameter book: Book data.
     private func removeBook(book: Book) -> Void {
-        if var books = self.booksByAuthorName[book.author] {
+        if var books = self.booksByAuthor[book.author] {
             for i in 0..<books.count {
                 let existBook = books[i]
                 if existBook.bookId == book.bookId {
                     books.remove(at: i)
-                    self.booksByAuthorName.updateValue(books, forKey: book.author)
+                    self.booksByAuthor.updateValue(books, forKey: book.author)
                     break
                 }
             }
@@ -235,34 +236,39 @@ class BooksViewController: UITableViewController, EditBookViewControllerDelegate
         }
     }
 
+    /// Replace the book.
+    ///
+    /// - Parameter newBook: New book data.
+    func replaceBook(newBook: Book) -> Void {
+        if var books = self.booksByAuthor[newBook.author] {
+            for i in 0..<books.count {
+                let book = books[i]
+                if book.bookId == newBook.bookId {
+                    books[i] = newBook
+                    self.booksByAuthor.updateValue(books, forKey: newBook.author)
+                    break
+                }
+            }
+        }
+    }
+
     /// Update the book.
     ///
     /// - Parameter oldBook: New book data.
     /// - Parameter newBook: Old book data.
     private func updateBook(oldBook: Book?, newBook: Book) -> Void {
         let app = UIApplication.shared.delegate as! AppDelegate
-        if (app.appDAO.bookDAO?.update(book: newBook))! == false {
-            return
-        }
-
-        if oldBook?.author == newBook.author {
-            // Replace
-            if var books = self.booksByAuthorName[(oldBook?.author)!] {
-                for i in 0..<books.count {
-                    let existBook = books[i]
-                    if existBook.bookId == existBook.bookId {
-                        books[i] = newBook
-                        self.booksByAuthorName.updateValue(books, forKey: (oldBook?.author)!)
-                    }
-                }
+        if app.appDAO.bookDAO.update(book: newBook) {
+            if oldBook?.author == newBook.author {
+                self.replaceBook(newBook: newBook)
+            } else {
+                // Move author
+                self.removeBook(book: oldBook!)
+                self.addBook(book: newBook)
             }
-        } else {
-            // Change author
-            self.removeBook(book: oldBook!)
-            self.addBook(book: newBook)
-        }
 
-        self.tableView.reloadData()
+            self.tableView.reloadData()
+        }
     }
 }
 
