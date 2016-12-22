@@ -15,7 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     /// Manager fot the application data.
-    private(set) var appDAO = AppDAO()
+    let appStore = AppStore()
 
     /// Tells the delegate that the launch process is almost done and the app is almost ready to run.
     ///

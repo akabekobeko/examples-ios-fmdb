@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  BooksViewController.swift
 //  UsingFMDB-Swift
 //
 //  Created by akabeko on 2016/12/17.
@@ -16,12 +16,6 @@ class BooksViewController: UITableViewController, EditBookViewControllerDelegate
     /// Name for the cell.
     private static let CellIdentifier = "Cell"
 
-    /// A collection of author names.
-    private var authors = Array<String>()
-
-    /// Dictionary of book collection classified by author name.
-    private var booksByAuthor = Dictionary<String, Array<Book>>()
-
     /// A value indicating that a new book should be created.
     private var creatingBook = false
 
@@ -34,12 +28,6 @@ class BooksViewController: UITableViewController, EditBookViewControllerDelegate
         let button = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add, target: self, action: #selector(didTouchCreateBookButton(sender:)))
         self.navigationItem.leftBarButtonItem  = button
         self.navigationItem.rightBarButtonItem = self.editButtonItem
-
-        let app   = UIApplication.shared.delegate as! AppDelegate
-        let books = app.appDAO.bookDAO.read()
-        books.forEach({ book in
-          self.addBook(book: book)
-        })
     }
 
     /// Notifies the view controller that its view is about to be removed from a view hierarchy.
@@ -62,8 +50,8 @@ class BooksViewController: UITableViewController, EditBookViewControllerDelegate
     ///   - sender: The object that initiated the segue. You might use this parameter to perform different actions based on which control (or other object) initiated the segue.
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == BooksViewController.SegueEditBook {
-            let vc = segue.destination as! EditBookViewController
-            vc.originalBook = self.creatingBook ? nil : self.bookAtIndexPAth(indexPath: self.tableView.indexPathForSelectedRow!)
+            let vc  = segue.destination as! EditBookViewController
+            vc.originalBook = self.creatingBook ? nil : self.bookAtIndexPath(indexPath: self.tableView.indexPathForSelectedRow!)
             vc.deletate     = self
         }
     }
@@ -75,17 +63,23 @@ class BooksViewController: UITableViewController, EditBookViewControllerDelegate
     ///   - oldBook:        Old book data.
     ///   - newBook:        New book data.
     func didFinishEditBook(viewController: EditBookViewController, oldBook: Book?, newBook: Book) {
+        let store   = self.bookStore()
+        var success = false;
         if (newBook.bookId == Book.BookIdNone) {
-            self.createBook(book: newBook)
+            success = store.add(book: newBook)
         } else {
-            self.updateBook(oldBook: oldBook, newBook: newBook)
+            success = store.update(oldBook: oldBook!, newBook: newBook)
+        }
+  
+        if success {
+            self.tableView.reloadData()
         }
     }
 
     /// Occurs when the book creation button is touched.
     ///
     /// - Parameter sender: Target of the event.
-    func didTouchCreateBookButton(sender: Any?) -> Void {
+    func didTouchCreateBookButton(sender: Any?) {
         self.creatingBook = true
         self.performSegue(withIdentifier: BooksViewController.SegueEditBook, sender: self)
     }
@@ -95,7 +89,8 @@ class BooksViewController: UITableViewController, EditBookViewControllerDelegate
     /// - Parameter tableView: An object representing the table view requesting this information.
     /// - Returns: The number of sections in tableView. The default value is 1.
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return self.authors.count
+        let store  = self.bookStore()
+        return store.authors.count
     }
 
     /// Tells the data source to return the number of rows in a given section of a table view.
@@ -105,8 +100,9 @@ class BooksViewController: UITableViewController, EditBookViewControllerDelegate
     ///   - section:   An index number identifying a section in tableView.
     /// - Returns: The number of rows in section.
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let author = self.authors[section]
-        let books  = self.booksByAuthor[author]
+        let store  = self.bookStore()
+        let author = store.authors[section]
+        let books  = store.booksByAuthor[author]
 
         return (books?.count)!
     }
@@ -118,7 +114,8 @@ class BooksViewController: UITableViewController, EditBookViewControllerDelegate
     ///   - section:   An index number identifying a section of tableView.
     /// - Returns: A string to use as the title of the section header. If you return nil , the section will have no title.
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return self.authors[section]
+        let store = self.bookStore()
+        return store.authors[section]
     }
 
     /// Asks the data source for a cell to insert in a particular location of the table view.
@@ -130,10 +127,9 @@ class BooksViewController: UITableViewController, EditBookViewControllerDelegate
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell  = tableView.dequeueReusableCell(withIdentifier: BooksViewController.CellIdentifier, for: indexPath)
         let label = cell.viewWithTag(1) as! UILabel
-        let book  = self.bookAtIndexPAth(indexPath: indexPath)
+        let book  = self.bookAtIndexPath(indexPath: indexPath)
 
-        label.text         = book.title
-        cell.clipsToBounds = true
+        label.text = book.title
 
         return cell
     }
@@ -146,10 +142,9 @@ class BooksViewController: UITableViewController, EditBookViewControllerDelegate
     ///   - indexPath:    An index path locating the row in tableView.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == UITableViewCellEditingStyle.delete {
-            let app  = UIApplication.shared.delegate as! AppDelegate
-            let book = self.bookAtIndexPAth(indexPath: indexPath)
-            if app.appDAO.bookDAO.remove(bookId: book.bookId) {
-                self.removeBook(book: book)
+            let store = self.bookStore()
+            let book  = self.bookAtIndexPath(indexPath: indexPath)
+            if store.remove(book: book) {
                 self.tableView.reloadData()
             }
         }
@@ -169,106 +164,20 @@ class BooksViewController: UITableViewController, EditBookViewControllerDelegate
     ///
     /// - Parameter indexPath: An index path locating a row in tableView.
     /// - Returns: Book data.
-    private func bookAtIndexPAth(indexPath: IndexPath) -> Book {
-        let author = self.authors[indexPath.section]
-        let books  = self.booksByAuthor[author]
+    private func bookAtIndexPath(indexPath: IndexPath) -> Book {
+        let store  = self.bookStore()
+        let author = store.authors[indexPath.section]
+        let books  = store.booksByAuthor[author]
 
         return books![indexPath.row]
     }
 
-    /// Add the new book.
+    /// Get the book sore.
     ///
-    /// - Parameter book: Book data.
-    private func addBook(book: Book) -> Void {
-        if var books = self.booksByAuthor[book.author] {
-            books.append(book)
-            self.booksByAuthor.updateValue(books, forKey: book.author)
-        } else {
-            var newBooks = Array<Book>()
-            newBooks.append(book)
-            self.booksByAuthor[book.author] = newBooks
-            self.authors.append(book.author)
-        }
-    }
-
-    /// Create the book.
-    ///
-    /// - Parameter book: Book data.
-    private func createBook(book: Book) -> Void {
+    /// - Returns: Instance of the book store.
+    func bookStore() -> BookStore {
         let app = UIApplication.shared.delegate as! AppDelegate
-        if let newBook = app.appDAO.bookDAO.add(author: book.author, title: book.title, releaseDate: book.releaseDate) {
-            self.addBook(book: newBook)
-            self.tableView.reloadData()
-        }
-    }
-
-    /// Remove the author.
-    ///
-    /// - Parameter author: Name of the author.
-    private func removeAuthor(author: String) -> Void {
-        self.booksByAuthor.removeValue(forKey: author)
-        for i in 0..<self.authors.count {
-            let existAuthor = self.authors[i]
-            if existAuthor == author {
-                self.authors.remove(at: i)
-                break
-            }
-        }
-    }
-
-    /// Remove the book.
-    ///
-    /// - Parameter book: Book data.
-    private func removeBook(book: Book) -> Void {
-        if var books = self.booksByAuthor[book.author] {
-            for i in 0..<books.count {
-                let existBook = books[i]
-                if existBook.bookId == book.bookId {
-                    books.remove(at: i)
-                    self.booksByAuthor.updateValue(books, forKey: book.author)
-                    break
-                }
-            }
-
-            if books.count == 0 {
-                self.removeAuthor(author: book.author)
-            }
-        }
-    }
-
-    /// Replace the book.
-    ///
-    /// - Parameter newBook: New book data.
-    func replaceBook(newBook: Book) -> Void {
-        if var books = self.booksByAuthor[newBook.author] {
-            for i in 0..<books.count {
-                let book = books[i]
-                if book.bookId == newBook.bookId {
-                    books[i] = newBook
-                    self.booksByAuthor.updateValue(books, forKey: newBook.author)
-                    break
-                }
-            }
-        }
-    }
-
-    /// Update the book.
-    ///
-    /// - Parameter oldBook: New book data.
-    /// - Parameter newBook: Old book data.
-    private func updateBook(oldBook: Book?, newBook: Book) -> Void {
-        let app = UIApplication.shared.delegate as! AppDelegate
-        if app.appDAO.bookDAO.update(book: newBook) {
-            if oldBook?.author == newBook.author {
-                self.replaceBook(newBook: newBook)
-            } else {
-                // Move author
-                self.removeBook(book: oldBook!)
-                self.addBook(book: newBook)
-            }
-
-            self.tableView.reloadData()
-        }
+        return app.appStore.bookStore
     }
 }
 
