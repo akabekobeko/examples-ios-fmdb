@@ -9,7 +9,7 @@
 import UIKit
 import FMDB
 
-/// Manage for the books data.
+/// Manage for the books data table.
 class BookDAO: NSObject {
     /// Query for the create table.
     private static let SQLCreate = "" +
@@ -48,16 +48,24 @@ class BookDAO: NSObject {
     /// Query for the delete row.
     private static let SQLDelete = "DELETE FROM books WHERE id = ?;"
 
-    /// Manager fot the application data.
-    private var appDAO: AppDAO
+    /// Instance of the database connection.
+    private let db: FMDatabase
 
     /// Initialize the instance.
     ///
     /// - Parameter appDAO: Manager fot the application data.
-    init(appDAO: AppDAO) {
-        self.appDAO = appDAO
+    init(db: FMDatabase) {
+        self.db = db
         super.init()
-        self.create()
+    }
+
+    deinit {
+        self.db.close()
+    }
+
+    /// Create the table.
+    func create() {
+        self.db.executeUpdate(BookDAO.SQLCreate, withArgumentsIn: nil)
     }
 
     /// Add the book.
@@ -69,13 +77,9 @@ class BookDAO: NSObject {
     /// - Returns: Added the book.
     func add(author: String, title: String, releaseDate: Date) -> Book? {
         var book: Book? = nil
-        if let db = self.appDAO.connection() {
-            if db.executeUpdate(BookDAO.SQLInsert, withArgumentsIn: [author, title, releaseDate]) {
-                let bookId = db.lastInsertRowId()
-                book = Book(bookId: Int(bookId), author: author, title: title, releaseDate: releaseDate)
-            }
-
-            db.close()
+        if self.db.executeUpdate(BookDAO.SQLInsert, withArgumentsIn: [author, title, releaseDate]) {
+            let bookId = db.lastInsertRowId()
+            book = Book(bookId: Int(bookId), author: author, title: title, releaseDate: releaseDate)
         }
 
         return book
@@ -86,18 +90,14 @@ class BookDAO: NSObject {
     /// - Returns: Readed books.
     func read() -> Array<Book> {
         var books = Array<Book>()
-        if let db = self.appDAO.connection() {
-            if let results = db.executeQuery(BookDAO.SQLSelect, withArgumentsIn: nil) {
-                while results.next() {
-                    let book = Book(bookId: results.long(forColumnIndex: 0),
-                                    author: results.string(forColumnIndex: 1),
-                                    title: results.string(forColumnIndex: 2),
-                                    releaseDate: results.date(forColumnIndex: 3))
-                    books.append(book)
-                }
+        if let results = self.db.executeQuery(BookDAO.SQLSelect, withArgumentsIn: nil) {
+            while results.next() {
+                let book = Book(bookId: results.long(forColumnIndex: 0),
+                                author: results.string(forColumnIndex: 1),
+                                title: results.string(forColumnIndex: 2),
+                                releaseDate: results.date(forColumnIndex: 3))
+                books.append(book)
             }
-
-            db.close()
         }
 
         return books
@@ -108,13 +108,7 @@ class BookDAO: NSObject {
     /// - Parameter bookId: The identifier of the book to remove.
     /// - Returns: "true" if successful.
     func remove(bookId: Int) -> Bool {
-        if let db = self.appDAO.connection() {
-            let success = db.executeUpdate(BookDAO.SQLDelete, withArgumentsIn: [bookId])
-            db.close()
-            return success
-        }
-
-        return false
+        return self.db.executeUpdate(BookDAO.SQLDelete, withArgumentsIn: [bookId])
     }
 
     /// Update a book.
@@ -122,25 +116,11 @@ class BookDAO: NSObject {
     /// - Parameter book: The data of the book to update.
     /// - Returns: "true" if successful.
     func update(book: Book) -> Bool {
-        if let db = self.appDAO.connection() {
-            let success = db.executeUpdate(BookDAO.SQLUpdate,
-                                           withArgumentsIn: [
-                                            book.author,
-                                            book.title,
-                                            book.releaseDate,
-                                            book.bookId])
-            db.close()
-            return success
-        }
-
-        return false
-    }
-
-    /// Create the table.
-    private func create() -> Void {
-        if let db = self.appDAO.connection() {
-            db.executeUpdate(BookDAO.SQLCreate, withArgumentsIn: nil)
-            db.close()
-        }
+        return db.executeUpdate(BookDAO.SQLUpdate,
+                                withArgumentsIn: [
+                                    book.author,
+                                    book.title,
+                                    book.releaseDate,
+                                    book.bookId])
     }
 }

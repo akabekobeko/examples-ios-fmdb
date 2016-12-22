@@ -25,7 +25,7 @@ class Book: NSObject {
     /// Release date.
     private(set) var releaseDate: Date
 
-    /// Create a book instance.
+    /// Initialize the instance.
     ///
     /// - Parameters:
     ///   - bookId:      Identifier
