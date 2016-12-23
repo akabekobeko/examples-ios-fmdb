@@ -161,9 +161,9 @@
 			isa = PBXGroup;
 			children = (
 				16E5CF721E0BED88004FCA68 /* AppStore.swift */,
-				16E5CF731E0BED88004FCA68 /* BookData.swift */,
-				16E5CF741E0BED88004FCA68 /* BookStore.swift */,
 				160E62E81E054B60001AFB1B /* Book.swift */,
+				16E5CF741E0BED88004FCA68 /* BookStore.swift */,
+				16E5CF731E0BED88004FCA68 /* BookData.swift */,
 				166D79B81E05466700BE23DD /* BookDAO.swift */,
 				16E5CF751E0BED88004FCA68 /* DAOFactory.swift */,
 			);
