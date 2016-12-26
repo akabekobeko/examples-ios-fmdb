@@ -8,18 +8,20 @@
 
 import XCTest
 
+/// Test the book data.
 class BookDataTests: XCTestCase {
+    /// Setup the test instance.
     override func setUp() {
         super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
     }
 
+    /// Tear down the test instance.
     override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
 
-    func testAddBook() {
+    /// Test the additional data processing.
+    func testAdd() {
         let data = BookData()
         var book = Book(bookId: Book.BookIdNone, author: "", title: "", releaseDate: Date())
         XCTAssert(!data.add(book: book))
@@ -34,7 +36,8 @@ class BookDataTests: XCTestCase {
         XCTAssert(books?[0].title == "title")
     }
 
-    func testRemoveBook() {
+    /// Test the remove data processing.
+    func testRemove() {
         let data = BookData()
         let book = Book(bookId: 1, author: "author", title: "title", releaseDate: Date())
         XCTAssert(data.add(book: book))
@@ -46,7 +49,8 @@ class BookDataTests: XCTestCase {
         XCTAssertNil(books)
     }
 
-    func testUpdateBookTitle() {
+    /// Test the update data with title processing.
+    func testUpdateTitle() {
         let data  = BookData()
         let book1 = Book(bookId: 1, author: "author", title: "title", releaseDate: Date())
         XCTAssert(data.add(book: book1))
@@ -60,7 +64,8 @@ class BookDataTests: XCTestCase {
         XCTAssert(books?[0].title == "title2")
     }
 
-    func testUpdateBookAuthorAndTitle() {
+    /// Test the update data with author and title processing.
+    func testUpdateAuthorAndTitle() {
         let data  = BookData()
         let book1 = Book(bookId: 1, author: "author", title: "title", releaseDate: Date())
         XCTAssert(data.add(book: book1))

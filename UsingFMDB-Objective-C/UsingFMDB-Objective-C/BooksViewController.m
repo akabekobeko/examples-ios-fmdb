@@ -9,8 +9,8 @@
 #import "BooksViewController.h"
 #import "EditBookViewController.h"
 #import "AppDelegate.h"
-#import "AppDAO.h"
-#import "BookDAO.h"
+#import "AppStore.h"
+#import "BookStore.h"
 #import "Book.h"
 
 /** Segur fot the edit book. */
@@ -18,12 +18,6 @@ static NSString * const kSegueEditBook = @"EditBook";
 
 ////////////////////////////////////////////////////////////////////////////////
 @interface BooksViewController () <EditBookViewDelegate>
-
-/** A collection of author names. */
-@property (nonatomic) NSMutableArray *authors;
-
-/** Dictionary of book collection (NSMutableArray.<Book>) classified by author name. */
-@property (nonatomic) NSMutableDictionary *booksByAuthorName;
 
 /** A value indicating that a new book should be created. */
 @property (nonatomic) BOOL creatingBook;
@@ -44,15 +38,6 @@ static NSString * const kSegueEditBook = @"EditBook";
     [super viewDidLoad];
 
     self.title = @"Books";
-
-    self.authors           = [NSMutableArray array];
-    self.booksByAuthorName = [NSMutableDictionary dictionary];
-
-    AppDelegate *app   = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    NSArray     *books = [app.appDAO.bookDAO read];
-    for (NSInteger i = 0, max = [books count]; i < max; ++i) {
-        [self addBook:[books objectAtIndex:i]];
-    }
 
     UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(didTouchCreateBookButton:)];
     self.navigationItem.leftBarButtonItem = button;
@@ -122,7 +107,8 @@ static NSString * const kSegueEditBook = @"EditBook";
  * @see https://developer.apple.com/reference/uikit/uitableviewdatasource/1614860-numberofsectionsintableview?language=objc
  */
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return [self.authors count];
+    BookStore *store = [self bookStore];
+    return [store.authors count];
 }
 
 /**
@@ -136,8 +122,10 @@ static NSString * const kSegueEditBook = @"EditBook";
  * @see https://developer.apple.com/reference/uikit/uitableviewdatasource/1614931-tableview?language=objc
  */
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    NSString *author = [self.authors objectAtIndex:section];
-    NSArray  *books  = [self.booksByAuthorName objectForKey:author];
+    BookStore *store  = [self bookStore];
+    NSString  *author = [store.authors objectAtIndex:section];
+    NSArray   *books  = [store.booksByAuthor objectForKey:author];
+
     return [books count];
 }
 
@@ -152,7 +140,8 @@ static NSString * const kSegueEditBook = @"EditBook";
  * @see https://developer.apple.com/reference/uikit/uitableviewdatasource/1614850-tableview?language=objc
  */
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    return [self.authors objectAtIndex:section];
+    BookStore *store = [self bookStore];
+    return [store.authors objectAtIndex:section];
 }
 
 /**
@@ -171,8 +160,7 @@ static NSString * const kSegueEditBook = @"EditBook";
     UILabel         *label          = [cell viewWithTag:1];
     Book            *book           = [self bookAtIndexPath:indexPath];
 
-    label.text         = book.title;
-    cell.clipsToBounds = YES;
+    label.text = book.title;
 
     return cell;
 }
@@ -188,10 +176,10 @@ static NSString * const kSegueEditBook = @"EditBook";
  */
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-        Book        *book = [self bookAtIndexPath:indexPath];
-        if ([app.appDAO.bookDAO remove:book.bookId]) {
-            [self removeBook:book];
+        BookStore *store = [self bookStore];
+        Book      *book  = [self bookAtIndexPath:indexPath];
+
+        if ([store remove:book]) {
             [self.tableView reloadData];
         }
     }
@@ -217,37 +205,25 @@ static NSString * const kSegueEditBook = @"EditBook";
 /**
  * Occurs when editing or creation of a book is completed.
  *
- * @param newBook New book data.
  * @param oldBook Old book data.
+ * @param newBook New book data.
  */
-- (void)didFinishEditBook:(Book *)newBook oldBook:(Book *)oldBook {
+- (void)didFinishEditBook:(Book *)oldBook newBook:(Book *)newBook{
+    BookStore *store    = [self bookStore];
+    BOOL      succeeded = NO;
+
     if (newBook.bookId == kBookIdNone) {
-        [self createBook:newBook];
+        succeeded = [store add:newBook];
     } else {
-        [self updateBook:newBook oldBook:oldBook];
+        succeeded = [store update:oldBook newBook:newBook];
+    }
+
+    if (succeeded) {
+        [self.tableView reloadData];
     }
 }
 
 #pragma mark - Private
-
-/**
- * Add the new book.
- *
- * @param book Book.
- */
-- (void)addBook:(Book *)book {
-    if (!(book)) { return; }
-
-    NSMutableArray *books = [self.booksByAuthorName objectForKey:book.author];
-    if (books) {
-        [books addObject:book];
-    } else {
-        books = [NSMutableArray array];
-        [books addObject:book];
-        [self.booksByAuthorName setObject:books forKey:book.author];
-        [self.authors addObject:book.author];
-    }
-}
 
 /**
  * Get the book at index path.
@@ -257,88 +233,21 @@ static NSString * const kSegueEditBook = @"EditBook";
  * @return Book data.
  */
 - (Book *)bookAtIndexPath:(NSIndexPath *)indexPath {
-    NSString *author = [self.authors objectAtIndex:indexPath.section];
-    NSArray  *books  = [self.booksByAuthorName objectForKey:author];
+    BookStore *store  = [self bookStore];
+    NSString  *author = [store.authors objectAtIndex:indexPath.section];
+    NSArray   *books  = [store.booksByAuthor objectForKey:author];
+
     return [books objectAtIndex:indexPath.row];
 }
 
 /**
- * Create the book.
+ * Get the book sore.
  *
- * @param book Book data.
+ * @return Instance of the book store.
  */
-- (void)createBook:(Book *)book {
-    AppDelegate *app     = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    Book        *newBook = [app.appDAO.bookDAO add:book.author title:book.title releaseDate:book.releaseDate];
-    if (!(newBook)) { return; }
-
-    [self addBook:newBook];
-    [self.tableView reloadData];
-}
-
-/**
- * Remove the author.
- *
- * @param author Name of the author.
- */
-- (void)removeAuthor:(NSString *)author {
-    [self.booksByAuthorName removeObjectForKey:author];
-    for (NSInteger i = 0, max = self.authors.count; i < max; ++i) {
-        NSString *existAuthor = [self.authors objectAtIndex:i];
-        if ([existAuthor compare:author] == NSOrderedSame) {
-            [self.authors removeObjectAtIndex:i];
-            break;
-        }
-    }
-}
-
-/**
- * Remove the book.
- *
- * @param book Book data.
- */
-- (void)removeBook:(Book *)book {
-    NSMutableArray *books = [self.booksByAuthorName objectForKey:book.author];
-    for (NSInteger i = 0, max = books.count; i < max; ++i) {
-        Book *existBook = [books objectAtIndex:i];
-        if (existBook.bookId == book.bookId) {
-            [books removeObjectAtIndex:i];
-            break;
-        }
-    }
-
-    if (books.count == 0) {
-        [self removeAuthor:book.author];
-    }
-}
-
-/**
- * Update the book.
- *
- * @param newBook New book data.
- * @param oldBook Old book data.
- */
-- (void)updateBook:(Book *)newBook oldBook:(Book *)oldBook {
-    AppDelegate *app     = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    if (!([app.appDAO.bookDAO update:newBook])) { return; }
-
-    if ([newBook.author compare:oldBook.author] == NSOrderedSame) {
-        // Replace
-        NSMutableArray *books = [self.booksByAuthorName objectForKey:newBook.author];
-        for (NSInteger i = 0, max = books.count; i < max; ++i) {
-            Book *book = [books objectAtIndex:i];
-            if (book.bookId == newBook.bookId) {
-                [books replaceObjectAtIndex:i withObject:newBook];
-                break;
-            }
-        }
-    } else {
-        // Change author
-        [self removeBook:oldBook];
-        [self addBook:newBook];
-    }
-
-    [self.tableView reloadData];
+- (BookStore *)bookStore {
+    AppDelegate *app   = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    return app.appStore.bookStore;
 }
 
 @end

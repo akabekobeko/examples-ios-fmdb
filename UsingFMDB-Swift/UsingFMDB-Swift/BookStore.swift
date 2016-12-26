@@ -28,17 +28,18 @@ class BookStore: NSObject {
     private let daoFactory: DAOFactory
 
     /// Manager for the book data.
-    private let bookData = BookData()
+    private var bookData: BookData!
 
     /// Initialize the instance.
     ///
-    /// - Parameter bookDAO: Manager for the book data table.
+    /// - Parameter daoFactory: Factory of a data access objects.
     init(daoFactory: DAOFactory) {
         self.daoFactory = daoFactory
         super.init()
 
         if let dao = self.daoFactory.bookDAO() {
-            self.bookData.setBooks(books: dao.read())
+            dao.create()
+            self.bookData = BookData(books: dao.read())
         }
     }
 
@@ -60,7 +61,7 @@ class BookStore: NSObject {
     /// - Returns: "true" if successful.
     func remove(book: Book) -> Bool {
         if let dao = self.daoFactory.bookDAO(), dao.remove(bookId: book.bookId) {
-            return self.bookData.removeBook(book: book)
+            return self.bookData.remove(book: book)
         }
 
         return false

@@ -21,10 +21,6 @@ class DAOFactory: NSObject {
 
         // For debug
         print(self.filePath)
-
-        if let dao = self.bookDAO() {
-            dao.create()
-        }
     }
 
     /// Initialize the instance with the path of the database file.

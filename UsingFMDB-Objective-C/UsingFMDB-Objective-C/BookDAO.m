@@ -8,7 +8,6 @@
 
 #import "BookDAO.h"
 #import "Book.h"
-#import "AppDAO.h"
 #import <FMDatabase.h>
 #import <FMResultSet.h>
 
@@ -52,8 +51,8 @@ static NSString * const kSQLDelete = @""
 
 @interface BookDAO ()
 
-/** Manager fot the application data. */
-@property (nonatomic, weak) AppDAO *appDAO;
+/** Instance of the database connection. */
+@property (nonatomic) FMDatabase *db;
 
 @end
 
@@ -62,18 +61,34 @@ static NSString * const kSQLDelete = @""
 /**
  * Initialize the instance.
  *
- * @param appDAO Manager fot the application data.
+ * @param db Instance of the database connection.
  *
  * @return Instance.
  */
-- (instancetype)init:(AppDAO *)appDAO {
+- (instancetype)init:(FMDatabase *)db {
     self = [super init];
-    if (self) {
-        self.appDAO = appDAO;
-        [self create];
+    if (self && db) {
+        self.db = db;
     }
 
     return self;
+}
+
+/**
+ * Deallocates the memory occupied by the receiver.
+ */
+- (void)dealloc {
+    [self.db close];
+}
+
+/**
+ * Create the table.
+ *
+ *
+ * @return YES if successful.
+ */
+- (BOOL)create {
+    return [self.db executeUpdate:kSQLCreate];
 }
 
 /**
@@ -86,16 +101,11 @@ static NSString * const kSQLDelete = @""
  * @return Added book.
  */
 - (Book *)add:(NSString *)author title:(NSString *)title releaseDate:(NSDate *)releaseDate {
-    FMDatabase *db = [self.appDAO connection];
-    if (!(db)) { return nil; }
-
     Book *book = nil;
-    if ([db executeUpdate:kSQLInsert, author, title, releaseDate]) {
-        NSInteger bookId = [db lastInsertRowId];
+    if ([self.db executeUpdate:kSQLInsert, author, title, releaseDate]) {
+        NSInteger bookId = [self.db lastInsertRowId];
         book = [Book bookWithId:bookId author:author title:title releaseDate:releaseDate];
     }
-
-    [db close];
 
     return book;
 }
@@ -107,18 +117,14 @@ static NSString * const kSQLDelete = @""
  */
 - (NSArray *)read {
     NSMutableArray *books = [NSMutableArray arrayWithCapacity:0];
-    FMDatabase     *db    = [self.appDAO connection];
-    if (!(db)) { return books; }
+    FMResultSet    *results = [self.db executeQuery:kSQLSelect];
 
-    FMResultSet *results = [db executeQuery:kSQLSelect];
     while ([results next]) {
         [books addObject:[Book bookWithId:[results intForColumnIndex:0]
                                    author:[results stringForColumnIndex:1]
                                     title:[results stringForColumnIndex:2]
                               releaseDate:[results dateForColumnIndex:3]]];
     }
-
-    [db close];
 
     return books;
 }
@@ -131,13 +137,7 @@ static NSString * const kSQLDelete = @""
  * @return YES if successful.
  */
 - (BOOL)remove:(NSInteger)bookId {
-    FMDatabase *db = [self.appDAO connection];
-    if (!(db)) { return NO; }
-
-    BOOL succeeded = [db executeUpdate:kSQLDelete, [NSNumber numberWithInteger:bookId]];
-    [db close];
-
-    return succeeded;
+    return [self.db executeUpdate:kSQLDelete, [NSNumber numberWithInteger:bookId]];
 }
 
 /**
@@ -148,30 +148,11 @@ static NSString * const kSQLDelete = @""
  * @return YES if successful.
  */
 - (BOOL)update:(Book *)book {
-    FMDatabase *db = [self.appDAO connection];
-    if (!(db)) { return NO; }
-
-    BOOL succeeded = [db executeUpdate:kSQLUpdate,
-                      book.author,
-                      book.title,
-                      book.releaseDate,
-                      [NSNumber numberWithInteger:book.bookId]];
-    [db close];
-
-    return succeeded;
-}
-
-#pragma mark - Private
-
-/**
- * Create the table.
- */
-- (void)create {
-    FMDatabase *db = [self.appDAO connection];
-    if (db) {
-        [db executeUpdate:kSQLCreate];
-        [db close];
-    }
+    return [self.db executeUpdate:kSQLUpdate,
+            book.author,
+            book.title,
+            book.releaseDate,
+            [NSNumber numberWithInteger:book.bookId]];
 }
 
 @end
