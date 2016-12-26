@@ -1,5 +1,5 @@
 //
-//  AppDAO.h
+//  AppStore.h
 //  UsingFMDB-Objective-C
 //
 //  Created by akabeko on 2016/12/12.
@@ -8,16 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
-@class FMDatabase, BookDAO;
+@class BookStore;
 
 /**
  *  Manager for the application database.
  */
-@interface AppDAO : NSObject
+@interface AppStore : NSObject
 
-/**  Manage for the books data. */
-@property (nonatomic, readonly) BookDAO *bookDAO;
-
-- (FMDatabase *)connection;
+/** Manage for the books. */
+@property (nonatomic, readonly) BookStore *bookStore;
 
 @end

@@ -8,14 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
-@class AppDAO, Book;
+@class FMDatabase, Book;
 
 /**
  * Manager for the books data.
  */
 @interface BookDAO : NSObject
 
-- (instancetype)init:(AppDAO *)appDAO;
+- (instancetype)init:(FMDatabase *)db;
+- (BOOL)create;
 - (Book *)add:(NSString *)author title:(NSString *)title releaseDate:(NSDate *)releaseDate;
 - (NSArray *)read;
 - (BOOL)remove:(NSInteger)bookId;

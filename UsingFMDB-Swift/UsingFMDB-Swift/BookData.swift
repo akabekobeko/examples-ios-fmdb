@@ -16,10 +16,17 @@ class BookData: NSObject {
     /// Dictionary of book collection classified by author name.
     var booksByAuthor = Dictionary<String, Array<Book>>()
 
-    /// Set the book data.
+    /// Initialize the instance.
+    override init() {
+        super.init()
+    }
+    
+    /// Initialize the instance.
     ///
     /// - Parameter books: Collection of the book data.
-    func setBooks(books: Array<Book>) {
+    init(books: Array<Book>) {
+        super.init()
+
         books.forEach({ (book) in
             if !self.add(book: book) {
                 print("Faild to add book: " + book.author + " - " + book.title )
@@ -80,7 +87,7 @@ class BookData: NSObject {
     func update(oldBook: Book, newBook: Book) -> Bool {
         if oldBook.author == newBook.author {
             return self.replaceBook(newBook: newBook)
-        } else if self.removeBook(book: oldBook) {
+        } else if self.remove(book: oldBook) {
             return self.add(book: newBook)
         }
 
@@ -99,31 +106,6 @@ class BookData: NSObject {
                 self.authors.remove(at: i)
                 return true
             }
-        }
-
-        return false
-    }
-
-    /// Remove the book at the inner dictionary.
-    ///
-    /// - Parameter book: Book data.
-    /// - Returns: "true" if successful.
-    func removeBook(book: Book) -> Bool {
-        if var books = self.booksByAuthor[book.author] {
-            for i in 0..<books.count {
-                let existBook = books[i]
-                if existBook.bookId == book.bookId {
-                    books.remove(at: i)
-                    self.booksByAuthor.updateValue(books, forKey: book.author)
-                    break
-                }
-            }
-
-            if books.count == 0 {
-                return self.removeAuthor(author: book.author)
-            }
-
-            return true
         }
 
         return false

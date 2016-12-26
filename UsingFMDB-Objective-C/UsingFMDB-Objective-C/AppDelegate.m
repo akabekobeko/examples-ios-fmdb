@@ -7,11 +7,11 @@
 //
 
 #import "AppDelegate.h"
-#import "AppDAO.h"
+#import "AppStore.h"
 
 @interface AppDelegate ()
 
-@property (nonatomic, readwrite) AppDAO *appDAO;
+@property (nonatomic, readwrite) AppStore *appStore;
 
 @end
 
@@ -28,7 +28,7 @@
  * @see https://developer.apple.com/reference/uikit/uiapplicationdelegate/1622921-application?language=objc
  */
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    self.appDAO = [[AppDAO alloc] init];
+    self.appStore = [[AppStore alloc] init];
 
     return YES;
 }

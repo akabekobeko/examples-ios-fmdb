@@ -73,12 +73,12 @@
  * @param sender Event target.
  */
 - (IBAction)done:(id)sender {
-    if ([self.delegate respondsToSelector:@selector(didFinishEditBook:oldBook:)]) {
-        [self.delegate didFinishEditBook:[Book bookWithId:self.originalBook ? self.originalBook.bookId : kBookIdNone
+    if ([self.delegate respondsToSelector:@selector(didFinishEditBook:newBook:)]) {
+        [self.delegate didFinishEditBook:self.originalBook
+                                 newBook:[Book bookWithId:self.originalBook ? self.originalBook.bookId : kBookIdNone
                                                    author:self.authorTextField.text
                                                     title:self.titleTextField.text
-                                              releaseDate:self.releaseDatePicker.date]
-                                 oldBook:self.originalBook];
+                                              releaseDate:self.releaseDatePicker.date]];
     }
 
     [self dismissViewControllerAnimated:YES completion:nil];

@@ -29,7 +29,6 @@ extern NSInteger const kBookIdNone;
 /** Release date. */
 @property (nonatomic, readonly) NSDate *releaseDate;
 
-
 + (instancetype)bookWithId:(NSInteger)bookId author:(NSString *)author title:(NSString *)title releaseDate:(NSDate *)releaseDate;
 
 @end

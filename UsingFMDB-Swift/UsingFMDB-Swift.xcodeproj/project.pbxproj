@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		10384EB71E0796B200D87032 /* EditBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10384EB61E0796B200D87032 /* EditBookViewController.swift */; };
+		10E5D6C71E10FCA20079199D /* BookDAOTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10E5D6C61E10FCA20079199D /* BookDAOTests.swift */; };
+		10E5D6C81E1100660079199D /* BookDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166D79B81E05466700BE23DD /* BookDAO.swift */; };
+		10E5D6C91E1100760079199D /* DAOFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E5CF751E0BED88004FCA68 /* DAOFactory.swift */; };
 		160E62E91E054B60001AFB1B /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = 160E62E81E054B60001AFB1B /* Book.swift */; };
 		164970861E05336100B3A96B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164970851E05336100B3A96B /* AppDelegate.swift */; };
 		164970881E05336100B3A96B /* BooksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164970871E05336100B3A96B /* BooksViewController.swift */; };
@@ -47,6 +50,7 @@
 
 /* Begin PBXFileReference section */
 		10384EB61E0796B200D87032 /* EditBookViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditBookViewController.swift; sourceTree = "<group>"; };
+		10E5D6C61E10FCA20079199D /* BookDAOTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookDAOTests.swift; sourceTree = "<group>"; };
 		160E62E81E054B60001AFB1B /* Book.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
 		164970821E05336100B3A96B /* UsingFMDB-Swift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "UsingFMDB-Swift.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		164970851E05336100B3A96B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -105,6 +109,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		10D5D9531E10A2F2007BB9CD /* Book */ = {
+			isa = PBXGroup;
+			children = (
+				160E62E81E054B60001AFB1B /* Book.swift */,
+				16E5CF741E0BED88004FCA68 /* BookStore.swift */,
+				16E5CF731E0BED88004FCA68 /* BookData.swift */,
+				166D79B81E05466700BE23DD /* BookDAO.swift */,
+			);
+			name = Book;
+			sourceTree = "<group>";
+		};
 		164970791E05336000B3A96B = {
 			isa = PBXGroup;
 			children = (
@@ -143,6 +158,7 @@
 			isa = PBXGroup;
 			children = (
 				16E5CF7A1E0BEDC5004FCA68 /* BookDataTests.swift */,
+				10E5D6C61E10FCA20079199D /* BookDAOTests.swift */,
 				1649709C1E05336100B3A96B /* Info.plist */,
 			);
 			path = "UsingFMDB-SwiftTests";
@@ -161,11 +177,8 @@
 			isa = PBXGroup;
 			children = (
 				16E5CF721E0BED88004FCA68 /* AppStore.swift */,
-				16E5CF731E0BED88004FCA68 /* BookData.swift */,
-				16E5CF741E0BED88004FCA68 /* BookStore.swift */,
-				160E62E81E054B60001AFB1B /* Book.swift */,
-				166D79B81E05466700BE23DD /* BookDAO.swift */,
 				16E5CF751E0BED88004FCA68 /* DAOFactory.swift */,
+				10D5D9531E10A2F2007BB9CD /* Book */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -503,8 +516,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				16E5CF7C1E0BEDD3004FCA68 /* BookData.swift in Sources */,
+				10E5D6C91E1100760079199D /* DAOFactory.swift in Sources */,
+				10E5D6C81E1100660079199D /* BookDAO.swift in Sources */,
 				16E5CF7B1E0BEDC5004FCA68 /* BookDataTests.swift in Sources */,
 				16E5CF7D1E0BEDDE004FCA68 /* Book.swift in Sources */,
+				10E5D6C71E10FCA20079199D /* BookDAOTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -53,7 +53,7 @@ class BookDAO: NSObject {
 
     /// Initialize the instance.
     ///
-    /// - Parameter appDAO: Manager fot the application data.
+    /// - Parameter db: Instance of the database connection.
     init(db: FMDatabase) {
         self.db = db
         super.init()

@@ -51,8 +51,8 @@ NSInteger const kBookIdNone = 0;
     self = [super init];
     if (self) {
         self.bookId      = bookId;
-        self.title       = title;
         self.author      = author;
+        self.title       = title;
         self.releaseDate = releaseDate;
     }
 

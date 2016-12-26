@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class AppDAO;
+@class AppStore;
 
 /**
  * Manager for the application.
@@ -19,7 +19,7 @@
 @property (strong, nonatomic) UIWindow *window;
 
 /** Manager for the application database. */
-@property (nonatomic, readonly) AppDAO *appDAO;
+@property (nonatomic, readonly) AppStore *appStore;
 
 @end
 

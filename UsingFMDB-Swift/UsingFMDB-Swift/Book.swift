@@ -29,13 +29,13 @@ class Book: NSObject {
     ///
     /// - Parameters:
     ///   - bookId:      Identifier
-    ///   - title:       Title.
     ///   - author:      Author.
+    ///   - title:       Title.
     ///   - releaseDate: Release Date
     init(bookId: Int, author: String, title: String, releaseDate: Date) {
         self.bookId      = bookId
-        self.title       = title
         self.author      = author
+        self.title       = title
         self.releaseDate = releaseDate
     }
 }

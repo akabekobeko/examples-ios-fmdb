@@ -19,10 +19,10 @@
 /**
  * Occurs when editing or creation of a book is completed.
  *
- * @param newBook New book data.
  * @param oldBook Old book data.
+ * @param newBook New book data.
  */
-- (void)didFinishEditBook:(Book *)newBook oldBook:(Book *)oldBook;
+- (void)didFinishEditBook:(Book *)oldBook newBook:(Book *)newBook;
 
 @end
 
