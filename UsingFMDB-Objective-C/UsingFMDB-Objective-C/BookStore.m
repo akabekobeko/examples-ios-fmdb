@@ -9,7 +9,7 @@
 #import "BookStore.h"
 #import "DAOFactory.h"
 #import "Book.h"
-#import "BookData.h"
+#import "BookCache.h"
 #import "BookDAO.h"
 
 @interface BookStore ()
@@ -18,7 +18,7 @@
 @property (nonatomic) DAOFactory *daoFactory;
 
 /** Manager for the book data. */
-@property (nonatomic) BookData *bookData;
+@property (nonatomic) BookCache *bookCache;
 
 @end
 
@@ -38,7 +38,7 @@
 
         BookDAO *dao = [self.daoFactory bookDAO];
         [dao create];
-        self.bookData = [[BookData alloc] initWithBooks:[dao read]];
+        self.bookCache = [[BookCache alloc] initWithBooks:[dao read]];
     }
 
     return self;
@@ -50,7 +50,7 @@
  * @return Names.
  */
 - (NSArray *)authors {
-    return self.bookData.authors;
+    return self.bookCache.authors;
 }
 
 /**
@@ -59,7 +59,7 @@
  * @reutrn Dictionary.
  */
 - (NSDictionary *)booksByAuthor {
-    return self.bookData.booksByAuthor;
+    return self.bookCache.booksByAuthor;
 }
 
 /**
@@ -73,7 +73,7 @@
     BookDAO *dao     = [self.daoFactory bookDAO];
     Book    *newBook = [dao add:book.author title:book.title releaseDate:book.releaseDate];
     if (newBook) {
-        return [self.bookData add:newBook];
+        return [self.bookCache add:newBook];
     }
 
     return NO;
@@ -89,7 +89,7 @@
 - (BOOL)remove:(Book *)book {
     BookDAO *dao = [self.daoFactory bookDAO];
     if ([dao remove:book.bookId]) {
-        return [self.bookData remove:book];
+        return [self.bookCache remove:book];
     }
 
     return NO;
@@ -106,7 +106,7 @@
 - (BOOL)update:(Book *)oldBook newBook:(Book *)newBook {
     BookDAO *dao = [self.daoFactory bookDAO];
     if ([dao update:newBook]) {
-        return [self.bookData update:oldBook newBook:newBook];
+        return [self.bookCache update:oldBook newBook:newBook];
     }
 
     return NO;

@@ -1,5 +1,5 @@
 //
-//  BookData.h
+//  BookCache.h
 //  UsingFMDB-Objective-C
 //
 //  Created by akabeko on 2016/12/26.
@@ -13,7 +13,7 @@
 /**
  * Manager fot the book data.
  */
-@interface BookData : NSObject
+@interface BookCache : NSObject
 
 /** Collection of author names. */
 @property (nonatomic, readonly) NSMutableArray *authors;

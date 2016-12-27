@@ -13,14 +13,14 @@ class BookStore: NSObject {
     /// Collection of author names.
     var authors: Array<String> {
         get {
-            return self.bookData.authors
+            return self.bookCache.authors
         }
     }
 
     /// Dictionary of book collection classified by author name.
     var booksByAuthor: Dictionary<String, Array<Book>> {
         get {
-            return self.bookData.booksByAuthor
+            return self.bookCache.booksByAuthor
         }
     }
 
@@ -28,7 +28,7 @@ class BookStore: NSObject {
     private let daoFactory: DAOFactory
 
     /// Manager for the book data.
-    private var bookData: BookData!
+    private var bookCache: BookCache!
 
     /// Initialize the instance.
     ///
@@ -39,7 +39,7 @@ class BookStore: NSObject {
 
         if let dao = self.daoFactory.bookDAO() {
             dao.create()
-            self.bookData = BookData(books: dao.read())
+            self.bookCache = BookCache(books: dao.read())
         }
     }
 
@@ -49,7 +49,7 @@ class BookStore: NSObject {
     /// - Returns: "true" if successful.
     func add(book: Book) -> Bool {
         if let dao = self.daoFactory.bookDAO(), let newBook = dao.add(author: book.author, title: book.title, releaseDate: book.releaseDate) {
-            return self.bookData.add(book: newBook)
+            return self.bookCache.add(book: newBook)
         }
 
         return false
@@ -61,7 +61,7 @@ class BookStore: NSObject {
     /// - Returns: "true" if successful.
     func remove(book: Book) -> Bool {
         if let dao = self.daoFactory.bookDAO(), dao.remove(bookId: book.bookId) {
-            return self.bookData.remove(book: book)
+            return self.bookCache.remove(book: book)
         }
 
         return false
@@ -74,7 +74,7 @@ class BookStore: NSObject {
     /// - Returns: "true" if successful.
     func update(oldBook: Book, newBook: Book) -> Bool {
         if let dao = self.daoFactory.bookDAO(), dao.update(book: newBook) {
-            return self.bookData.update(oldBook: oldBook, newBook: newBook)
+            return self.bookCache.update(oldBook: oldBook, newBook: newBook)
         }
 
         return false

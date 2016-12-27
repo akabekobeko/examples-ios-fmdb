@@ -8,10 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		10D5D94B1E10995E007BB9CD /* BookStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 10D5D94A1E10995E007BB9CD /* BookStore.m */; };
-		10D5D94E1E10996D007BB9CD /* BookData.m in Sources */ = {isa = PBXBuildFile; fileRef = 10D5D94D1E10996D007BB9CD /* BookData.m */; };
+		10D5D94E1E10996D007BB9CD /* BookCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 10D5D94D1E10996D007BB9CD /* BookCache.m */; };
 		10D5D9511E109A2E007BB9CD /* DAOFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 10D5D9501E109A2E007BB9CD /* DAOFactory.m */; };
-		10D5D9551E10B4E5007BB9CD /* BookDataTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 10D5D9541E10B4E5007BB9CD /* BookDataTests.m */; };
-		10D5D9561E10B518007BB9CD /* BookData.m in Sources */ = {isa = PBXBuildFile; fileRef = 10D5D94D1E10996D007BB9CD /* BookData.m */; };
+		10D5D9551E10B4E5007BB9CD /* BookCacheTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 10D5D9541E10B4E5007BB9CD /* BookCacheTests.m */; };
+		10D5D9561E10B518007BB9CD /* BookCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 10D5D94D1E10996D007BB9CD /* BookCache.m */; };
 		10D5D9571E10B563007BB9CD /* Book.m in Sources */ = {isa = PBXBuildFile; fileRef = 16D30CF71DF2DEBD0086C0E7 /* Book.m */; };
 		10E5D6C41E10D2D20079199D /* BookDAOTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 10E5D6C31E10D2D20079199D /* BookDAOTests.m */; };
 		10E5D6C51E10D2DF0079199D /* BookDAO.m in Sources */ = {isa = PBXBuildFile; fileRef = 16D30CFA1DF2DF3A0086C0E7 /* BookDAO.m */; };
@@ -52,11 +52,11 @@
 		106EA4E9982E1AC53B013408 /* libPods-UsingFMDB-Objective-CTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-UsingFMDB-Objective-CTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		10D5D9491E10995E007BB9CD /* BookStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookStore.h; sourceTree = "<group>"; };
 		10D5D94A1E10995E007BB9CD /* BookStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookStore.m; sourceTree = "<group>"; };
-		10D5D94C1E10996D007BB9CD /* BookData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookData.h; sourceTree = "<group>"; };
-		10D5D94D1E10996D007BB9CD /* BookData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookData.m; sourceTree = "<group>"; };
+		10D5D94C1E10996D007BB9CD /* BookCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookCache.h; sourceTree = "<group>"; };
+		10D5D94D1E10996D007BB9CD /* BookCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookCache.m; sourceTree = "<group>"; };
 		10D5D94F1E109A2E007BB9CD /* DAOFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAOFactory.h; sourceTree = "<group>"; };
 		10D5D9501E109A2E007BB9CD /* DAOFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAOFactory.m; sourceTree = "<group>"; };
-		10D5D9541E10B4E5007BB9CD /* BookDataTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookDataTests.m; sourceTree = "<group>"; };
+		10D5D9541E10B4E5007BB9CD /* BookCacheTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookCacheTests.m; sourceTree = "<group>"; };
 		10E5D6C31E10D2D20079199D /* BookDAOTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookDAOTests.m; sourceTree = "<group>"; };
 		14C597E4E8AF49E5CF5BF927 /* libPods-UsingFMDB-Objective-CUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-UsingFMDB-Objective-CUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		165E69C01DFEC800007668E1 /* AppStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppStore.h; sourceTree = "<group>"; };
@@ -126,8 +126,8 @@
 				16D30CF71DF2DEBD0086C0E7 /* Book.m */,
 				10D5D9491E10995E007BB9CD /* BookStore.h */,
 				10D5D94A1E10995E007BB9CD /* BookStore.m */,
-				10D5D94C1E10996D007BB9CD /* BookData.h */,
-				10D5D94D1E10996D007BB9CD /* BookData.m */,
+				10D5D94C1E10996D007BB9CD /* BookCache.h */,
+				10D5D94D1E10996D007BB9CD /* BookCache.m */,
 				16D30CF91DF2DF3A0086C0E7 /* BookDAO.h */,
 				16D30CFA1DF2DF3A0086C0E7 /* BookDAO.m */,
 			);
@@ -181,7 +181,7 @@
 		168F30F41DE32A4100F03E2F /* UsingFMDB-Objective-CTests */ = {
 			isa = PBXGroup;
 			children = (
-				10D5D9541E10B4E5007BB9CD /* BookDataTests.m */,
+				10D5D9541E10B4E5007BB9CD /* BookCacheTests.m */,
 				10E5D6C31E10D2D20079199D /* BookDAOTests.m */,
 				168F30F71DE32A4100F03E2F /* Info.plist */,
 			);
@@ -529,7 +529,7 @@
 				16D30CF81DF2DEBD0086C0E7 /* Book.m in Sources */,
 				168F30E31DE32A4100F03E2F /* BooksViewController.m in Sources */,
 				168F30E01DE32A4100F03E2F /* AppDelegate.m in Sources */,
-				10D5D94E1E10996D007BB9CD /* BookData.m in Sources */,
+				10D5D94E1E10996D007BB9CD /* BookCache.m in Sources */,
 				16D30CFB1DF2DF3A0086C0E7 /* BookDAO.m in Sources */,
 				168F30DD1DE32A4100F03E2F /* main.m in Sources */,
 				10D5D94B1E10995E007BB9CD /* BookStore.m in Sources */,
@@ -542,9 +542,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				10D5D9561E10B518007BB9CD /* BookData.m in Sources */,
+				10D5D9561E10B518007BB9CD /* BookCache.m in Sources */,
 				10D5D9571E10B563007BB9CD /* Book.m in Sources */,
-				10D5D9551E10B4E5007BB9CD /* BookDataTests.m in Sources */,
+				10D5D9551E10B4E5007BB9CD /* BookCacheTests.m in Sources */,
 				10E5D6C51E10D2DF0079199D /* BookDAO.m in Sources */,
 				10E5D6C41E10D2D20079199D /* BookDAOTests.m in Sources */,
 			);

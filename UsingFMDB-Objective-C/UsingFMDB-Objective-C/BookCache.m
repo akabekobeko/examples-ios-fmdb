@@ -1,15 +1,15 @@
 //
-//  BookData.m
+//  BookCache.m
 //  UsingFMDB-Objective-C
 //
 //  Created by akabeko on 2016/12/26.
 //  Copyright © 2016年 akabeko. All rights reserved.
 //
 
-#import "BookData.h"
+#import "BookCache.h"
 #import "Book.h"
 
-@interface BookData ()
+@interface BookCache ()
 
 /** Collection of author names. */
 @property (nonatomic, readwrite) NSMutableArray *authors;
@@ -19,7 +19,7 @@
 
 @end
 
-@implementation BookData
+@implementation BookCache
 
 /**
  * Initialize the instance.

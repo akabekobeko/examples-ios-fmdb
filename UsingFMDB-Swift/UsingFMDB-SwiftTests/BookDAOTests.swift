@@ -52,7 +52,7 @@ class BookDAOTests: XCTestCase {
             XCTAssert(dao.remove(bookId: (book?.bookId)!))
 
             let books = dao.read()
-            XCTAssert(books.count == 0)
+            XCTAssertEqual(books.count, 0)
         } else {
             XCTAssert(false)
         }
@@ -66,14 +66,14 @@ class BookDAOTests: XCTestCase {
 
             // Before
             var books = dao.read()
-            XCTAssert(books[0].title == "title")
+            XCTAssertEqual(books[0].title, "title")
 
             // After
             let book2 = Book(bookId: (book?.bookId)!, author: (book?.author)!, title: "title2", releaseDate: (book?.releaseDate)!)
             XCTAssert(dao.update(book: book2))
             books = dao.read()
-            XCTAssert(books[0].title == "title2")
-            
+            XCTAssertEqual(books[0].title, "title2")
+
             XCTAssert(dao.remove(bookId: (book?.bookId)!))
 
         } else {
