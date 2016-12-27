@@ -1,5 +1,5 @@
 //
-//  BookData.swift
+//  BookCache.swift
 //  UsingFMDB-Swift
 //
 //  Created by akabeko on 2016/12/22.
@@ -9,10 +9,10 @@
 import UIKit
 
 /// Manager fot the book data.
-class BookData: NSObject {
+class BookCache: NSObject {
     /// A collection of author names.
     var authors = Array<String>()
-    
+
     /// Dictionary of book collection classified by author name.
     var booksByAuthor = Dictionary<String, Array<Book>>()
 
@@ -20,7 +20,7 @@ class BookData: NSObject {
     override init() {
         super.init()
     }
-    
+
     /// Initialize the instance.
     ///
     /// - Parameter books: Collection of the book data.

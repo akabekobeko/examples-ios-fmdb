@@ -66,7 +66,7 @@
     XCTAssert([dao remove:book.bookId]);
 
     NSArray *books = [dao read];
-    XCTAssert(books.count == 0);
+    XCTAssertEqual(books.count, 0);
 }
 
 /**
@@ -79,17 +79,17 @@
 
     // Before
     NSArray *books = [dao read];
-    XCTAssert(books.count == 1);
+    XCTAssertEqual(books.count, 1);
     book = [books objectAtIndex:0];
-    XCTAssert([book.title compare:@"title"] == NSOrderedSame);
+    XCTAssertEqualObjects(book.title, @"title");
 
     // After
     book = [Book bookWithId:book.bookId author:book.author title:@"title2" releaseDate:book.releaseDate];
     XCTAssert([dao update:book]);
     books = [dao read];
-    XCTAssert(books.count == 1);
+    XCTAssertEqual(books.count, 1);
     book = [books objectAtIndex:0];
-    XCTAssert([book.title compare:@"title2"] == NSOrderedSame);
+    XCTAssertEqualObjects(book.title, @"title2");
 
     XCTAssert([dao remove:book.bookId]);
 }

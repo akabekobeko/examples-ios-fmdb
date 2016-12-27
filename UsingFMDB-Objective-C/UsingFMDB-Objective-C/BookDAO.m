@@ -66,8 +66,10 @@ static NSString * const kSQLDelete = @""
  * @return Instance.
  */
 - (instancetype)init:(FMDatabase *)db {
+    if (!(db)) { return nil; }
+
     self = [super init];
-    if (self && db) {
+    if (db) {
         self.db = db;
     }
 
