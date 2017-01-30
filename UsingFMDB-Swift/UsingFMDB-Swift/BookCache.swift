@@ -61,22 +61,24 @@ class BookCache: NSObject {
     /// - Parameter book: Book data.
     /// - Returns: "true" if successful.
     func remove(book: Book) -> Bool {
-        if var books = self.booksByAuthor[book.author] {
-            for i in 0..<books.count {
-                let existBook = books[i]
-                if existBook.bookId == book.bookId {
-                    books.remove(at: i)
-                    self.booksByAuthor.updateValue(books, forKey: book.author)
-                    break
-                }
-            }
+        guard var books = self.booksByAuthor[book.author] else {
+            return false
+        }
 
-            if books.count == 0 {
-                return self.removeAuthor(author: book.author)
+        for i in 0..<books.count {
+            let existBook = books[i]
+            if existBook.bookId == book.bookId {
+                books.remove(at: i)
+                self.booksByAuthor.updateValue(books, forKey: book.author)
+                break
             }
         }
 
-        return false
+        if books.count == 0 {
+            return self.removeAuthor(author: book.author)
+        }
+
+        return true
     }
 
     /// Update the book.
@@ -116,14 +118,16 @@ class BookCache: NSObject {
     /// - Parameter newBook: New book data.
     /// - Returns: "true" if successful.
     private func replaceBook(newBook: Book) -> Bool {
-        if var books = self.booksByAuthor[newBook.author] {
-            for i in 0..<books.count {
-                let book = books[i]
-                if book.bookId == newBook.bookId {
-                    books[i] = newBook
-                    self.booksByAuthor.updateValue(books, forKey: newBook.author)
-                    return true
-                }
+        guard var books = self.booksByAuthor[newBook.author] else {
+            return false
+        }
+
+        for i in 0..<books.count {
+            let book = books[i]
+            if book.bookId == newBook.bookId {
+                books[i] = newBook
+                self.booksByAuthor.updateValue(books, forKey: newBook.author)
+                return true
             }
         }
 
