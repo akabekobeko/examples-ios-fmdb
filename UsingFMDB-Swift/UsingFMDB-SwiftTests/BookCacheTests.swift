@@ -47,6 +47,12 @@ class BookCacheTests: XCTestCase {
 
         let books = cache.booksByAuthor["author"]
         XCTAssertNil(books)
+
+        let book2  = Book(bookId: 2, author: "author", title: "title", releaseDate: Date())
+        XCTAssert(cache.add(book: book))
+        XCTAssert(cache.add(book: book2))
+        XCTAssert(cache.remove(book: book))
+        XCTAssertEqual(cache.authors.count, 1)
     }
 
     /// Test the update data with title processing.
