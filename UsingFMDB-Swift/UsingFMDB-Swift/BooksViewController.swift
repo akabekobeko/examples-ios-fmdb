@@ -79,7 +79,7 @@ class BooksViewController: UITableViewController, EditBookViewControllerDelegate
     /// Occurs when the book creation button is touched.
     ///
     /// - Parameter sender: Target of the event.
-    func didTouchCreateBookButton(sender: Any?) {
+    @objc func didTouchCreateBookButton(sender: Any?) {
         self.creatingBook = true
         self.performSegue(withIdentifier: BooksViewController.SegueEditBook, sender: self)
     }
